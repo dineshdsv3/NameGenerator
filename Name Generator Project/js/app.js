@@ -20,26 +20,46 @@ function generateName(e) {
         url += `amount=${amount}&`
     }
     
-    const xhr = new XMLHttpRequest();
+    // XMLHTTP REQUEST
+    // const xhr = new XMLHttpRequest();
 
-    xhr.open("GET",url,true);
+    // xhr.open("GET",url,true);
 
-    xhr.onreadystatechange = function () {
-        if(this.status == 200 && this.readyState == 4) {
-            let names = JSON.parse(this.responseText);
+    // xhr.onreadystatechange = function () {
+    //     if(this.status == 200 && this.readyState == 4) {
+    //         let names = JSON.parse(this.responseText);
 
-            let html = `<h2>Generated Names</h2>`;
-            html += `<ul class="list">`;
-            names.forEach((name)=> {
-                html += `<li>${name.name}</li>`
-            })
-            html += `</ul>`
-            document.getElementById('result').innerHTML = html;
-        }
+    //         let html = `<h3>Generated Names</h3>`;
+    //         html += `<ul class="list">`;
+    //         names.forEach((name)=> {
+    //             html += `<li>${name.name}</li>`
+    //         })
+    //         html += `</ul>`
+    //         document.getElementById('result').innerHTML = html;
+    // //     }
        
-    }
+    // }
 
-    xhr.send();
+    // xhr.send();
     // console.log(url);
+
+
+    // FETCH API WITH PROMISES
+
+    fetch(url)
+    .then((response) => {
+        return response.json();
+    })
+    .then((names) => {
+        console.log(names)
+        let html =  `<h4>Generated Random Names</h4>`;
+     
+        html += `<ul class="list">`
+        names.forEach((ele) => {
+            html+= `<li>${ele.name}</li>`
+        })
+        html += `</ul>`
+        document.getElementById('result').innerHTML = html;
+    })
     
 }

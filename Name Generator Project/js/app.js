@@ -1,4 +1,4 @@
-document.getElementById('generate-names').addEventListener('submit',generateName);
+document.getElementById('generate-names').addEventListener('submit', generateName);
 
 
 function generateName(e) {
@@ -10,17 +10,35 @@ function generateName(e) {
     const gender = document.getElementById('gender').value;
     const amount = document.getElementById('quantity').value;
 
-    if(origin != "") {
+    if (origin != "") {
         url += `region=${origin}&`
     }
-    if(gender != "") {
+    if (gender != "") {
         url += `gender=${gender}&`
     }
-    if(amount != "") {
+    if (amount != "") {
         url += `amount=${amount}&`
     }
+
+    // FETCH API PROMISES
+
+    getNames(url)
+    .then((data) => {
+        let datas = (data.name);
+      
+            let html = `<h2>Generated Names</h2>`;
+            html += `<ul class="list">`;
+           datas.forEach(name => {
+                html += `<li>${name.name}</li>`
+            })
+            html += `</ul>`
+            document.getElementById('result').innerHTML = html;
+    })
+      
+
     
-    // XMLHTTP REQUEST
+
+    // AJAX CALL
     // const xhr = new XMLHttpRequest();
 
     // xhr.open("GET",url,true);
@@ -29,37 +47,20 @@ function generateName(e) {
     //     if(this.status == 200 && this.readyState == 4) {
     //         let names = JSON.parse(this.responseText);
 
-    //         let html = `<h3>Generated Names</h3>`;
-    //         html += `<ul class="list">`;
-    //         names.forEach((name)=> {
-    //             html += `<li>${name.name}</li>`
-    //         })
-    //         html += `</ul>`
-    //         document.getElementById('result').innerHTML = html;
-    // //     }
-       
+    //        
+    //         
+    //        
+    //     }
+
     // }
 
     // xhr.send();
-    // console.log(url);
+    // // console.log(url);
 
+}
 
-    // FETCH API WITH PROMISES
-
-    fetch(url)
-    .then((response) => {
-        return response.json();
-    })
-    .then((names) => {
-        console.log(names)
-        let html =  `<h4>Generated Random Names</h4>`;
-     
-        html += `<ul class="list">`
-        names.forEach((ele) => {
-            html+= `<li>${ele.name}</li>`
-        })
-        html += `</ul>`
-        document.getElementById('result').innerHTML = html;
-    })
-    
+async function getNames(url) {
+    const response = await fetch(url);
+    const name = await response.json();
+    return {name};
 }

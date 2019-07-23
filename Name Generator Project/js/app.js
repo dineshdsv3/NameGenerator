@@ -58,7 +58,7 @@ function generateName(e) {
     // // console.log(url);
 
 }
-
+// Aysnc added
 async function getNames(url) {
     const response = await fetch(url);
     const name = await response.json();
